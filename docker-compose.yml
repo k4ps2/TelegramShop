@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  bot:
+    build: .
+    container_name: shop_bot
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:16-alpine
+    container_name: shop_bot_db
+    environment:
+      POSTGRES_DB: shop_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # 5433 чтобы не конфликтовать с локальным postgres
+
+  redis:
+    image: redis:7-alpine
+    container_name: shop_bot_redis
+    ports:
+      - "6380:6379"  # 6380 для внешнего доступа
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
