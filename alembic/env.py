@@ -8,6 +8,11 @@ from sqlalchemy import pool
 from alembic import context
 import asyncio
 
+# Импорт моделей для autogenerate
+from src.models.user import User
+from src.models.product import Product
+# Добавляй новые модели сюда
+
 from src.core.database import Base
 from src.bot.config import settings
 
