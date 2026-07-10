@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
 
+    # Bot settings
+    ITEMS_PER_PAGE: int = 5
+    DEFAULT_LANGUAGE: str = "en"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -30,7 +34,7 @@ class Settings(BaseSettings):
             return v
         if isinstance(v, str):
             if v.startswith("[") and v.endswith("]"):
-                return eval(v)  # simple for [1,2,3]
+                return eval(v)
             if v.strip():
                 return [int(x.strip()) for x in v.split(",")]
             return []
